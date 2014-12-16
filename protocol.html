@@ -1,0 +1,75 @@
+<!DOCTYPE html><html><head><meta charset="utf-8" /><meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" /><title>NodeInfo</title><link href="/stylesheets/all.css" rel="stylesheet" type="text/css" /><script src="/javascripts/all.js" type="text/javascript"></script></head><body class="protocol"><div class="ui menu inverted large" id="nav"><span class="item header"> NodeInfo</span><a class="item " href="/">Home</a><a class="item active" href="/protocol.html">Protocol</a><a class="item " href="/schema.html">Schema</a></div><div class="ui segment basic" id="main"><h1>NodeInfo protocol 1.0</h1>
+
+<h2>Status</h2>
+
+<p>This document is still in early draft status.</p>
+
+<h2>Definitions</h2>
+
+<p>The term &ldquo;server&rdquo; in this document refers to software providing
+metadata about itself on a host.</p>
+
+<p>The term &ldquo;client&rdquo; in this document refers to software wishing to
+retrieve metadata about a host.</p>
+
+<p>The term &ldquo;NodeInfo schema&rdquo; refers to a schema definition provided in the
+schemas subdirectory.</p>
+
+<h2>Discovery</h2>
+
+<p>Servers must provide the well-known path <code>/.well-known/nodeinfo</code> and
+provide a JRD document referencing the supported documents via Link
+elements.</p>
+
+<p>Currently the following relations are known:</p>
+
+<ul>
+<li><code>http://nodeinfo.diaspora.software/ns/schema/1.0</code>. Referencing a JSON document
+following the NodeInfo schema 1.0.</li>
+</ul>
+
+<p>A client should first try the HTTPS protocol and fall back to HTTP on
+connection errors or if it can&rsquo;t validate the presented certificate.</p>
+
+<p>A client should follow redirections by the HTTP protocol.</p>
+
+<p>A client should abandon the discovery on a HTTP response status code of
+404 or 400 and mark the host as not supporting the NodeInfo protocol.</p>
+
+<p>A client should retry discovery on server errors as indicated by the
+HTTP response status code 500.</p>
+
+<p>A client should follow the link matching the highest schema version it
+supports.</p>
+
+<p>Discovery for media types other than <code>application/json</code> is left
+unspecified.</p>
+
+<h3>Example</h3>
+
+<p>The server at <code>https://example.org</code> supporting NodeInfo schema up to version
+1.0 should provide <code>https://example.org/.well-known/nodeinfo</code> with the following
+contents:</p>
+<pre class="highlight json"><code><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://nodeinfo.diaspora.software/ns/schema/1.0"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.org/nodeinfo/1.0"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+ </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2>Retrieval</h2>
+
+<p>When accessing the referenced schema document, a client should set the
+Accept header to the <code>application/json</code> media type.</p>
+
+<p>A server must provide the data at least in this media type. A server should
+set a Content-Type of
+<code>application/json; profile=http://nodeinfo.diaspora.software/ns/schema/1.0#</code>,
+where the value of profile matches the resolution scope of the NodeInfo
+schema version that&rsquo;s being returned.</p>
+
+<p>A sever may provide additional representations.</p>
+</div></body></html>
