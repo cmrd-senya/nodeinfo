@@ -7,8 +7,10 @@
   "required": [
     "version",
     "software",
-    "openRegistrations"
-
+    "protocols",
+    "openRegistrations",
+    "usage",
+    "metadata"
   ],
   "properties": {
     "version": {
@@ -52,28 +54,38 @@
         "inbound": {
           "description": "The protocols this server can receive traffic for.",
           "type": "array",
+          "minItems": 1,
           "items": {
             "enum": [
+              "buddycloud",
               "diaspora",
               "friendica",
               "gnusocial",
+              "libertree",
               "mediagoblin",
               "pumpio",
-              "redmatrix"
+              "redmatrix",
+              "smtp",
+              "tent"
             ]
           }
         },
         "outbound": {
           "description": "The protocols this server can generate traffic for.",
           "type": "array",
+          "minItems": 1,
           "items": {
             "enum": [
+              "buddycloud",
               "diaspora",
               "friendica",
               "gnusocial",
+              "libertree",
               "mediagoblin",
               "pumpio",
-              "redmatrix"
+              "redmatrix",
+              "smtp",
+              "tent"
             ]
           }
         }
@@ -82,13 +94,35 @@
     "services": {
       "description": "The third party sites this servers allows to publish messages to.",
       "type": "array",
+      "minItems": 0,
       "items": {
         "enum": [
+          "appnet",
+          "blogger",
+          "buddycloud",
           "diaspora",
+          "dreamwidth",
+          "drupal",
           "facebook",
+          "friendica",
+          "gnusocial",
+          "google",
+          "insanejournal",
+          "libertree",
+          "linkedin",
+          "livejournal",
+          "mediagoblin",
+          "myspace",
+          "pinterest",
+          "posterous",
+          "pumpio",
+          "redmatrix",
+          "smtp",
+          "tent",
           "tumblr",
           "twitter",
-          "wordpress"
+          "wordpress",
+          "xmpp"
         ]
       }
     },
@@ -100,6 +134,9 @@
       "description": "Usage statistics for this server.",
       "type": "object",
       "additionalProperties": false,
+      "required": [
+        "users"
+      ],
       "properties": {
         "users": {
           "description": "statistics about the users of this server.",
@@ -134,6 +171,12 @@
           "minimum": 0
         }
       }
+    },
+    "metadata": {
+      "description": "Free form key value pairs for software specific values. Clients should not rely on any specific key present.",
+      "type": "object",
+      "minProperties": 0,
+      "additionalProperties": true
     }
   }
 }
